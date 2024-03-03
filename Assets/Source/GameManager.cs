@@ -1,50 +1,47 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int score = 0;
     public int lives = 3;
-
-    public Text scoreText;
     public GameObject[] lifeIcons;
+    public int totalBonuses = 0; // Общее количество бонусов на уровне
+    private int collectedBonuses = 0; // Количество собранных бонусов
 
     private void Awake()
     {
-        // Убедитесь, что существует только один экземпляр GameManager
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject); // Убедитесь, что GameManager не уничтожается при загрузке новой сцены
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
-
-        // Не уничтожать при загрузке новой сцены
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        UpdateScoreText();
+        totalBonuses = FindObjectsOfType<Bonus>().Length;
+        ScoreManager.instance.UpdateScoreText(); // Обновляем текст счета через ScoreManager
         UpdateLivesDisplay();
     }
 
-    public void AddScore(int points)
+    public void CollectBonus(int points)
     {
-        score += points;
-        UpdateScoreText();
-    }
+        ScoreManager.instance.AddScore(points); // Добавляем очки через ScoreManager
+        collectedBonuses++;
 
-    private void UpdateScoreText()
-    {
-        if (scoreText != null)
+        // Проверяем, собраны ли все бонусы
+        if (collectedBonuses > totalBonuses)
         {
-            scoreText.text = "Score: " + score;
+            WinGame();
         }
     }
 
@@ -54,7 +51,6 @@ public class GameManager : MonoBehaviour
         {
             lives--;
             UpdateLivesDisplay();
-            // Можно добавить логику респауна игрока или временной неуязвимости
 
             if (lives <= 0)
             {
@@ -67,28 +63,18 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < lifeIcons.Length; i++)
         {
-            if (i < lives)
-            {
-                lifeIcons[i].SetActive(true);
-            }
-            else
-            {
-                lifeIcons[i].SetActive(false);
-            }
+            lifeIcons[i].SetActive(i < lives);
         }
     }
 
     private void GameOver()
     {
-        // Показать экран проигрыша
-        // SceneManager.LoadScene("GameOverScene");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Перезагрузка текущей сцены
     }
 
     public void WinGame()
     {
-        // Показать экран победы
-        // SceneManager.LoadScene("WinScene");
+        Debug.Log("Game win"); // Здесь можно загрузить сцену победы
     }
 
     // Методы для кнопок UI
@@ -96,8 +82,8 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         lives = 3;
-        score = 0;
-        UpdateScoreText();
+        ScoreManager.instance.score = 0; // Сброс счета через ScoreManager
+        ScoreManager.instance.UpdateScoreText(); // Обновляем текст счета через ScoreManager
         UpdateLivesDisplay();
     }
 
