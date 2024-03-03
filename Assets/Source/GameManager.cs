@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         // Показать экран проигрыша
         // SceneManager.LoadScene("GameOverScene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void WinGame()
