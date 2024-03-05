@@ -8,17 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int lives = 3;
-    public GameObject[] lifeIcons;
-    public int totalBonuses = 0; // Общее количество бонусов на уровне
-    private int collectedBonuses = 0; // Количество собранных бонусов
+    [SerializeField] private int lives = 3;
+    [SerializeField] private GameObject[] lifeIcons;
+    [SerializeField] private int totalBonuses = 0; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private int collectedBonuses = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // Убедитесь, что GameManager не уничтожается при загрузке новой сцены
+            DontDestroyOnLoad(gameObject); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ GameManager пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         }
         else if (instance != this)
         {
@@ -29,16 +29,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         totalBonuses = FindObjectsOfType<Bonus>().Length;
-        ScoreManager.instance.UpdateScoreText(); // Обновляем текст счета через ScoreManager
+        ScoreManager.instance.UpdateScoreText(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ScoreManager
         UpdateLivesDisplay();
     }
 
     public void CollectBonus(int points)
     {
-        ScoreManager.instance.AddScore(points); // Добавляем очки через ScoreManager
+        ScoreManager.instance.AddScore(points); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ScoreManager
         collectedBonuses++;
 
-        // Проверяем, собраны ли все бонусы
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (collectedBonuses > totalBonuses)
         {
             WinGame();
@@ -69,21 +69,23 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Перезагрузка текущей сцены
+       // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        SceneManager.LoadScene("LoseScene");
     }
 
     public void WinGame()
     {
-        Debug.Log("Game win"); // Здесь можно загрузить сцену победы
+        Debug.Log("Game win"); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        SceneManager.LoadScene("WinScene");
     }
 
-    // Методы для кнопок UI
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ UI
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         lives = 3;
-        ScoreManager.instance.score = 0; // Сброс счета через ScoreManager
-        ScoreManager.instance.UpdateScoreText(); // Обновляем текст счета через ScoreManager
+        ScoreManager.instance.score = 0; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ScoreManager
+        ScoreManager.instance.UpdateScoreText(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ScoreManager
         UpdateLivesDisplay();
     }
 

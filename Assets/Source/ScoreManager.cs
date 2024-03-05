@@ -7,11 +7,11 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
-    public int score = 0;
-    public Text scoreText;
-    public int pointsPerBonus = 10; // Количество очков за каждый бонус
-    private int totalBonuses; // Общее количество бонусов на уровне
-    private int collectedBonuses = 0; // Количество собранных бонусов
+    [SerializeField]public int score = 0;
+    [SerializeField] private Text scoreText;
+    [SerializeField] public int pointsPerBonus = 10; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private int totalBonuses; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private int collectedBonuses = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         UpdateScoreText();
-        // Инициализация totalBonuses
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ totalBonuses
         totalBonuses = FindObjectsOfType<Bonus>().Length;
     }
 
@@ -36,12 +36,12 @@ public class ScoreManager : MonoBehaviour
     {
         score += bonusPoints;
         UpdateScoreText();
-        collectedBonuses++; // Увеличиваем количество собранных бонусов
+        collectedBonuses++; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-        // Проверяем, собраны ли все бонусы
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (collectedBonuses >= totalBonuses)
         {
-            GameManager.instance.WinGame(); // Вызываем WinGame из GameManager
+            GameManager.instance.WinGame(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ WinGame пїЅпїЅ GameManager
         }
     }
 
